@@ -4,4 +4,52 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+
+  <servlet>
+    <servlet-name>IndexServlet</servlet-name>
+    <servlet-class>servlet.IndexServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ItemServlet</servlet-name>
+    <servlet-class>servlet.ItemServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ActiveItemServlet</servlet-name>
+    <servlet-class>servlet.ActiveItemServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>CompletedItemServlet</servlet-name>
+    <servlet-class>servlet.CompletedItemServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DeleteServlet</servlet-name>
+    <servlet-class>servlet.DeleteServlet</servlet-class>
+  </servlet>
+
+
+  <servlet-mapping>
+    <servlet-name>IndexServlet</servlet-name>
+    <url-pattern>/index.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ActiveItemServlet</servlet-name>
+    <url-pattern>/active.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>ItemServlet</servlet-name>
+    <url-pattern>/item.do</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>CompletedItemServlet</servlet-name>
+    <url-pattern>/comp.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+
+    <servlet-name>DeleteServlet</servlet-name>
+    <url-pattern>/del.do</url-pattern>
+  </servlet-mapping>
+
 </web-app>
