@@ -1,10 +1,6 @@
 package model;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Objects;
 
@@ -24,7 +20,6 @@ public class Item {
     public Item() {
 
     }
-
 
     public Item(String description) {
         this.description = description;
