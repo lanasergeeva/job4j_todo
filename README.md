@@ -6,4 +6,22 @@
 
 # Приложение TODO LIST
 
-![alt text]()
+## Общий вид приложения
+![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/view.jpg)
+
+## Добавление задачи
+Задача прописывается в поле Create a new Item. С нажатием Enter сразу попадает в общий список.
+![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/Enter%20todo.jpg)
+
+## Мы можем отображать список всех задач, все активные или все завершенные  
+Все
+![alt_text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/allitems.jpg)
+
+Активные
+![alt_text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/active1.jpg)
+
+Заверешенные
+![alt_text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/comp1.jpg)
+
+## Пример работы программы
+![alt_text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/work.gif)
