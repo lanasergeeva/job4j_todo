@@ -9,7 +9,6 @@ public interface Store {
 
     Item add(Item item);
 
-    boolean replace(int id, Item item);
 
     boolean delete(int id);
 
@@ -24,6 +23,8 @@ public interface Store {
     Item findById(int id);
 
     boolean isDone(int id);
+
+    boolean isNotDone(int id);
 
     boolean deleteCompletedItems();
 

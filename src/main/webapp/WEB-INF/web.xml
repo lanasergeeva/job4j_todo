@@ -1,55 +1,65 @@
 <!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+    <display-name>Archetype Created Web Application</display-name>
 
-  <servlet>
-    <servlet-name>IndexServlet</servlet-name>
-    <servlet-class>servlet.IndexServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>ItemServlet</servlet-name>
-    <servlet-class>servlet.ItemServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>ActiveItemServlet</servlet-name>
-    <servlet-class>servlet.ActiveItemServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>CompletedItemServlet</servlet-name>
-    <servlet-class>servlet.CompletedItemServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>DeleteServlet</servlet-name>
-    <servlet-class>servlet.DeleteServlet</servlet-class>
-  </servlet>
+    <servlet>
+        <servlet-name>ItemServlet</servlet-name>
+        <servlet-class>servlet.ItemServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ActiveItemServlet</servlet-name>
+        <servlet-class>servlet.ActiveItemServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CompletedItemServlet</servlet-name>
+        <servlet-class>servlet.CompletedItemServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteServlet</servlet-name>
+        <servlet-class>servlet.DeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DoneServlet</servlet-name>
+        <servlet-class>servlet.DoneServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>IsNotDoneServlet</servlet-name>
+        <servlet-class>servlet.IsNotDoneServlet</servlet-class>
+    </servlet>
 
 
-  <servlet-mapping>
-    <servlet-name>IndexServlet</servlet-name>
-    <url-pattern>/index.do</url-pattern>
-  </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ActiveItemServlet</servlet-name>
+        <url-pattern>/active.do</url-pattern>
+    </servlet-mapping>
 
-  <servlet-mapping>
-    <servlet-name>ActiveItemServlet</servlet-name>
-    <url-pattern>/active.do</url-pattern>
-  </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ItemServlet</servlet-name>
+        <url-pattern>/item.do</url-pattern>
+    </servlet-mapping>
 
-  <servlet-mapping>
-    <servlet-name>ItemServlet</servlet-name>
-    <url-pattern>/item.do</url-pattern>
-  </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CompletedItemServlet</servlet-name>
+        <url-pattern>/comp.do</url-pattern>
+    </servlet-mapping>
 
-  <servlet-mapping>
-    <servlet-name>CompletedItemServlet</servlet-name>
-    <url-pattern>/comp.do</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteServlet</servlet-name>
+        <url-pattern>/del.do</url-pattern>
+    </servlet-mapping>
 
-    <servlet-name>DeleteServlet</servlet-name>
-    <url-pattern>/del.do</url-pattern>
-  </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DoneServlet</servlet-name>
+        <url-pattern>/done.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>IsNotDoneServlet</servlet-name>
+        <url-pattern>/not.do</url-pattern>
+    </servlet-mapping>
 
 </web-app>

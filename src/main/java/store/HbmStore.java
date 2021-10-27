@@ -11,10 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.Query;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 
 public class HbmStore implements Store, AutoCloseable {
 
@@ -35,139 +33,86 @@ public class HbmStore implements Store, AutoCloseable {
 
     @Override
     public Item add(Item item) {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-            session.save(item);
-            return item;
-        } finally {
-            tx.commit();
-            session.close();
-        }
+        tx(session -> session.save(item));
+        return item;
     }
 
+    @Override
     public boolean isDone(int id) {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
         String hql = "update model.Item "
                 + "SET done  = :done"
                 + " where id = :idParam";
-        try {
-            Query query = session.createQuery(hql);
-            query.setParameter("idParam", id);
-            query.setParameter("done", true);
-            return query.executeUpdate() > 0;
-        } finally {
-            tx.commit();
-            session.close();
-        }
+        return tx(session -> {
+                    Query query = session.createQuery(hql);
+                    query.setParameter("idParam", id);
+                    query.setParameter("done", true);
+                    return query.executeUpdate() > 0;
+                }
+        );
     }
-
-
 
     @Override
-    public boolean replace(int id, Item item) {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
+    public boolean isNotDone(int id) {
         String hql = "update model.Item "
-                + "SET description  = :description"
-                + ", created  = :created"
+                + "SET done  = :done"
                 + " where id = :idParam";
-        try {
-            Query query = session.createQuery(hql);
-            query.setParameter("idParam", id);
-            query.setParameter("created", item.getCreated());
-            query.setParameter("description", item.getDescription());
-            return query.executeUpdate() > 0;
-        } finally {
-            tx.commit();
-            session.close();
-        }
+        return tx(session -> {
+                    Query query = session.createQuery(hql);
+                    query.setParameter("idParam", id);
+                    query.setParameter("done", false);
+                    return query.executeUpdate() > 0;
+                }
+        );
     }
+
 
     @Override
     public boolean deleteCompletedItems() {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-            return session
-                    .createQuery("delete from model.Item "
-                            + "as item where item.done=:done").
-                            setParameter("done", true)
-                    .executeUpdate() > 0;
-        } finally {
-            tx.commit();
-            session.close();
-        }
+        return tx(session -> session
+                .createQuery("delete from model.Item "
+                        + "as item where item.done=:done").
+                        setParameter("done", true)
+                .executeUpdate() > 0);
     }
 
     @Override
     public boolean delete(int id) {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-            return session
-                    .createQuery("delete from model.Item "
-                            + "as item where item.id=:id").
-                            setParameter("id", id)
-                    .executeUpdate() > 0;
-        } finally {
-            tx.commit();
-            session.close();
-        }
+        return tx(session ->
+                session.createQuery("delete from model.Item "
+                        + "as item where item.id=:id").
+                        setParameter("id", id)
+                        .executeUpdate() > 0);
     }
 
 
     @Override
     public List<Item> findAll() {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-            return session.createQuery("from model.Item").list();
-        } finally {
-            tx.commit();
-            session.close();
-        }
+        return tx(
+                session -> session.createQuery("from model.Item").list());
     }
 
     @Override
     public List<Item> findAllActiveItems() {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-            return session.createQuery("from model.Item as item where item.done=:done")
-                    .setParameter("done", false).list();
-        } finally {
-            tx.commit();
-            session.close();
-        }
+        return tx(
+                session -> session.createQuery("from model.Item as item where item.done=:done")
+                        .setParameter("done", false)
+                        .list());
     }
 
     @Override
     public List<Item> findAllCompItems() {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-            return session.createQuery("from model.Item as item where item.done=:done")
-                    .setParameter("done", true).list();
-        } finally {
-            tx.commit();
-            session.close();
-        }
+        return tx(
+                session -> session.createQuery("from model.Item as item where item.done=:done")
+                        .setParameter("done", true).list());
     }
+
 
     @Override
     public List<Item> findByName(String name) {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-            return session
-                    .createQuery("from model.Item as item where item.description=:name").
-                            setParameter("name", name).list();
-        } finally {
-            tx.commit();
-            session.close();
-        }
+        return tx(
+                session -> session
+                        .createQuery("from model.Item as item where item.description=:name").
+                                setParameter("name", name).list());
     }
 
     @Override
@@ -192,20 +137,24 @@ public class HbmStore implements Store, AutoCloseable {
 
     }
 
+    private <T> T tx(final Function<Session, T> command) {
+        final Session session = sf.openSession();
+        final Transaction tx = session.beginTransaction();
+        try {
+            T rsl = command.apply(session);
+            tx.commit();
+            return rsl;
+        } catch (final Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
     public static void main(String[] args) {
         HbmStore hb = new HbmStore();
-
-        Item item2 = new Item("Lana");
-        Item item3 = new Item("Max");
-        Item item4 = new Item("Maxon");
-        //Item item3 = new Item("First3 iem");
-        hb.add(item2);
-        hb.add(item3);
-        hb.add(item4);
-        //hb.add(item2);hb.add(item3);
-
-        System.out.println(hb.findAll());
-        //System.out.println(Timestamp.valueOf(LocalDateTime.now()));
+        System.out.println(hb.isDone(40));
     }
 }
 

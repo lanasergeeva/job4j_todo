@@ -1,19 +1,32 @@
-var itemsList = new Set;
-/*$(document).ready(function () {
-    sizeItem();
-});*/
+const itemsList = new Set;
+const maps = new Map;
+const bool = new Map;
+
+$(document).on("click","#all", function(){
+    getAllItems();
+});
+
+$(document).on("click","#act", function(){
+    getActive();
+});
+
+$(document).on("click","#comp", function(){
+    getComp();
+});
+
+$(document).on("click","#cleanDone", function(){
+    deleteComp();
+});
 
 
 function sizeItem() {
-    var ty = itemsList.size;
-    var rsl = "Items " +  ty;
-    document.getElementById('length').innerHTML = rsl;
-
+    let ty = maps.size;
+    document.getElementById('length').innerHTML = ty + " item(s)";
 }
 
 function addItem(event) {
     event.preventDefault();
-    var desc = $('#description').val();
+    let desc = $('#description').val();
     $.ajax({
         type: 'POST',
         url: 'http://localhost:8080/todo/item.do',
@@ -22,34 +35,52 @@ function addItem(event) {
             created: new Date().toISOString(),
         }), dataType: 'text'
     }).done(function (data) {
-        location.reload();
+        document.getElementById('description').value='';
+        getAllItems();
+
     })
 }
 
+function divFun(id) {
+    const ap = bool.get(id);
+    let urlI = (ap === true) ? 'http://localhost:8080/todo/not.do' : 'http://localhost:8080/todo/done.do';
+    let temp = maps.get(id);
+    $.ajax({
+        type: 'POST',
+        url: urlI,
+        data: JSON.stringify(temp),
+        dataType: 'text'
+    }).done(function (data) {
+        getAllItems();
+    })
+}
 
-function getAllItems() {
+function getItems(url) {
     itemsList.clear();
     $("#ti").empty();
     $.ajax({
         type: 'GET',
-        url: 'http://localhost:8080/todo/item.do',
+        url: url,
         dataType: 'json'
     }).done(function (data) {
         for (var item of data) {
-            itemsList.add(item);
-            var date = new Date(item.created);
-            var day = date.getDate();
-            var mon = date.getMonth() + 1;
-            var year = date.getFullYear();
+            let index = item.id;
+            let st = item.done;
+            maps.set(index, item);
+            bool.set(index, st);
+            let date = new Date(item.created);
+            let day = date.getDate();
+            let mon = date.getMonth() + 1;
+            let year = date.getFullYear();
             const full = day + ' ' + mon + ' ' + year;
-            const done = (item.done === false) ? "check-mark" : "check-mark checked";
-            const line = (item.done === false) ? "todo-text" : "todo-text checked";
+            const done = (st === false) ? "check-mark" : "check-mark checked";
+            const line = (st === false) ? "todo-text" : "todo-text checked";
             $('#ti').append(`<div class="todo-item">`
                 + `<div class="check">`
-                + `<div class="${done}"><img src="icons/icon-check.svg"></div>`
+                + `<div class="${done}" id="${index}" onclick="divFun(${index})"><img src="icons/icon-check.svg"></div>`
                 + `</div>`
-                + `<div class="${line}" style="width: 120px"><p class="descr">(${item.id}) ${full}</p></div>`
                 + `<div class="${line}">${item.description}</div>`
+                + `<div class="${line}" style="width: 130px"><p class="descr">${full}</p></div>`
                 + `</div>`
             )
         }
@@ -59,66 +90,27 @@ function getAllItems() {
     });
 };
 
+function getAllItems() {
+    getItems('http://localhost:8080/todo/item.do');
+    $("#all").attr('class', 'active');
+    $("#act").attr('class', 'non');
+    $("#comp").attr('class', 'non');
+}
 
 function getActive() {
-    itemsList.clear();
-    $("#ti").empty();
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8080/todo/active.do',
-        dataType: 'json'
-    }).done(function (data) {
-        for (var item of data) {
-            itemsList.add(item);
-            var date = new Date(item.created);
-            var day = date.getDate();
-            var mon = date.getMonth() + 1;
-            var year = date.getFullYear();
-            const full = day + ' ' + mon + ' ' + year;
-            const done = (item.done === false) ? "check-mark" : "check-mark checked";
-            const line = (item.done === false) ? "todo-text" : "todo-text checked";
-            $('#ti').append(`<div class="todo-item">`
-                + `<div class="check">`
-                + `<div class="${done}"><img src="icons/icon-check.svg"></div>`
-                + `</div>`
-                + `<div class="${line}" style="width: 90px"><p class="descr">${full}</p></div>`
-                + `<div class="${line}">${item.description}</div>`
-                + `</div>`
-            )
-        }
-    }).fail(function (err) {
-        console.log(err);
-    });
-};
+    getItems('http://localhost:8080/todo/active.do');
+    $("#act").attr('class', 'active');
+    $("#all").attr('class', 'non');
+    $("#comp").attr('class', 'non');
+}
 
 function getComp() {
-    $("#ti").empty();
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8080/todo/comp.do',
-        dataType: 'json'
-    }).done(function (data) {
-        for (var item of data) {
-            var date = new Date(item.created);
-            var day = date.getDate();
-            var mon = date.getMonth() + 1;
-            var year = date.getFullYear();
-            const full = day + ' ' + mon + ' ' + year;
-            const done = (item.done === false) ? "check-mark" : "check-mark checked";
-            const line = (item.done === false) ? "todo-text" : "todo-text checked";
-            $('#ti').append(`<div class="todo-item">`
-                + `<div class="check">`
-                + `<div class="${done}"><img src="icons/icon-check.svg"></div>`
-                + `</div>`
-                + `<div class="${line}" style="width: 90px"><p class="descr">${full}</p></div>`
-                + `<div class="${line}">${item.description}</div>`
-                + `</div>`
-            )
-        }
-    }).fail(function (err) {
-        console.log(err);
-    });
-};
+    getItems('http://localhost:8080/todo/comp.do');
+    $("#comp").attr('class', 'active');
+    $("#act").attr('class', 'non');
+    $("#all").attr('class', 'non');
+}
+
 
 function deleteComp() {
     $("#ti").empty();
@@ -132,51 +124,6 @@ function deleteComp() {
     location.reload();
 };
 
-
-function getItems() {
-    $("#ti").empty();
-    let items = [];
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8080/todo/item.do',
-        dataType: 'json'
-    }).done(function (data) {
-        for (var item of data) {
-            items.push(item);
-        }
-    })
-    generateItems(items);
-}
-
-function generateItems(items) {
-    var dynamicHTML = '';
-    for (var i = 0; i < items.length; i++) {
-        let textr = items[i].description;
-        dynamicHTML += '<div class="todo-item">'
-            + '<div class="check">'
-            + '<div class="check-mark"><img src="icons/icon-check.svg"></div>'
-            + ' </div>'
-            + '<div class="todo-text"> + items[i].description + </div>'
-            + ' </div>';
-    }
-    $("todo-items").append(dynamicHTML);
-}
-
-function markCompleted(id){
-    let item = db.collection("todo-items").doc(id);
-    item.get().then(function(doc) {
-        if (doc.exists) {
-            if(doc.data().status == "active"){
-                item.update({
-                    status: "completed"
-                })
-            } else {
-                item.update({
-                    status: "active"
-                })
-            }
-        }
-    })
-}
-
 getAllItems();
+
+

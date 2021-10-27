@@ -9,14 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet">
     <title>To Do List App</title>
     <link rel="stylesheet" href="css/style.css">
-    <<!--script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <!--    <script src="js/firebase.js"></script>-->
     <script src="script.js"></script>
-
 
 </head>
 <body>
@@ -26,7 +21,7 @@
 <div class="container">
     <div class="header">
         <div class="title">
-            TODO
+            TODO LIST
         </div>
         <div class="theme">
             <img src="icons/icon-moon.svg">
@@ -38,45 +33,26 @@
             </div>
         </div>
         <div class="new-todo-input">
-            <form onsubmit="addItem(event)">
+            <form id="add" onsubmit="addItem(event)">
                 <input id="description" type="text" placeholder="Create a new Item..."/>
             </form>
         </div>
     </div>
     <div class="todo-items-wrapper">
         <div id="ti" class="todo-items">
-            <div class="todo-item">
-                <div class="check">
-                    <div class="check-mark checked">
-                        <img src="icons/icon-check.svg">
-                    </div>
-                </div>
-                <div class="todo-text checked">
-                    New Item
-                </div>
-            </div>
-            <div class="todo-item">
-                <div class="check">
-                    <div class="check-mark">
 
-                    </div>
-                </div>
-                <div class="todo-text">
-                    New Item
-                </div>
-            </div>
         </div>
         <div class="todo-items-info">
             <div class="items-left">
                 <span id="length">All</span>
             </div>
             <div class="items-statuses">
-                <span onclick="getAllItems(); return false">All</span>
-                <span onclick="getActive(); return false">Active</span>
-                <span onclick="getComp(); return false">Completed</span>
+                <span id="all">All</span>
+                <span id="act">Active</span>
+                <span id="comp">Completed</span>
             </div>
             <div class="items-clear">
-                <span onclick="deleteComp(); return false">Clear Completed</span>
+                <span id="cleanDone">Clear Completed</span>
             </div>
         </div>
     </div>

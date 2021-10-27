@@ -42,9 +42,9 @@ body {
 }
 
 .title {
-    color: hsl(110, 49%, 66%);
+    color: rgba(59, 223, 70, 1);
     letter-spacing: 10px;
-    font-size: 50px;
+    font-size: 70px;
     font-weight: bold;
 }
 
@@ -60,7 +60,6 @@ body {
 
 .check {
     width: 60px;
-    /*flex-basis: 90px;*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -86,13 +85,13 @@ body {
 }
 
 .check-mark:hover {
-  /*  border-color: linear-gradient(135deg, #55DDFF 0%, #C058F3 100%);*/
-    background: linear-gradient(135deg, #55DDFF 0%, #C058F3 100%);
+    background: rgb(34, 193, 195);
+    background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(59, 223, 70, 1) 100%);
 }
 
 .check-mark.checked {
-    background-color: pink;
-    background: linear-gradient(135deg, #55DDFF 0%, #C058F3 100%);
+    background: rgb(34, 193, 195);
+    background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(59, 223, 70, 1) 100%);
 }
 
 .todo-text.checked {
@@ -187,11 +186,11 @@ body {
 }
 
 .items-statuses span:hover, .items-clear:hover {
-    color: hsl(110, 70%, 40%);
+    color: rgba(59, 223, 70, 1);
 }
 
 .items-statuses .active {
-    color: hsl(110, 70%, 40%);
+    color: rgba(59, 223, 70, 1);
 }
 
 .todo-item:hover {
