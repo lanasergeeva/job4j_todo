@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <title>To Do List App</title>
+    <link rel="stylesheet" href="css/style1.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="regjs.js"></script>
+
+
+</head>
+
+
+<body>
+<div class="background-image">
+    <img src="image/bgmatrix.png">
+</div>
+<div class="container">
+    <div class="header">
+        <div class="title">
+            Sign in
+        </div>
+    </div>
+
+    <form onsubmit="addUser(event)">
+        <div class="new-todo">
+            <div class="new-todo-input">
+                <input id="login"  type="text" title="Enter you name" autocomplete="off" placeholder="Enter login..."/>
+            </div>
+        </div>
+        <div class="new-todo" style="margin-top: 20px;">
+            <div class="new-todo-input">
+                <input id="email"  type="email"  title="Enter you email" autocomplete="off" placeholder="Enter email..."/>
+            </div>
+        </div>
+        <div class="new-todo" style="margin-top: 20px;">
+            <div class="new-todo-input">
+                <input id="password" type="password" title="Enter your password" autocomplete="off"
+                       placeholder="Enter password..."/>
+            </div>
+        </div>
+        <button type="submit" class="button" onclick="return validate();">Save</button>
+    </form>
+
+    <button type="button" class="button_ac">
+        <a href="http://localhost:8080/todo/log.html">Already have an account?</a></button>
+</div>
+</div>
+
+
+</body>
+</html>

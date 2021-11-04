@@ -17,8 +17,31 @@ public class Item {
 
     private boolean done;
 
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Item() {
 
+    }
+
+    public Item(String description, User user) {
+        this.description = description;
+        this.user = user;
+    }
+
+    public Item(String description, Date created, User user) {
+        this.description = description;
+        this.created = new Date(System.currentTimeMillis());
+        this.done = false;
+        this.user = user;
+    }
+
+    public Item(String description, Date created, boolean done, User user) {
+        this.description = description;
+        this.created = new Date(System.currentTimeMillis());
+        this.done = false;
+        this.user = user;
     }
 
     public Item(String description) {
@@ -49,6 +72,14 @@ public class Item {
         this.description = description;
         this.created = created;
         this.done = done;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getId() {
@@ -86,27 +117,24 @@ public class Item {
     @Override
     public String toString() {
         return "Item{"
-                + "id=" + id
-                + ", description='" + description + '\''
-                + ", created=" + created
-                + ", done=" + done
-                + '}';
+               + "id=" + id
+              +  ", description='" + description + '\''
+              +  ", created=" + created
+              +  ", done=" + done
+              +  ", user=" + user
+              +  '}';
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
-        return id == item.id && done == item.done && Objects.equals(description, item.description) && Objects.equals(created, item.created);
+        return id == item.id && done == item.done && Objects.equals(description, item.description) && Objects.equals(created, item.created) && Objects.equals(user, item.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, created, done);
+        return Objects.hash(id, description, created, done, user);
     }
 }

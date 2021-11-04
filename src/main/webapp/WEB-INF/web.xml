@@ -5,6 +5,16 @@
 <web-app>
     <display-name>Archetype Created Web Application</display-name>
 
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>filter.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>ItemServlet</servlet-name>
         <servlet-class>servlet.ItemServlet</servlet-class>
@@ -25,10 +35,22 @@
         <servlet-name>DoneServlet</servlet-name>
         <servlet-class>servlet.DoneServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AuthServlet</servlet-name>
+        <servlet-class>servlet.AuthServlet</servlet-class>
+    </servlet>
 
     <servlet>
         <servlet-name>IsNotDoneServlet</servlet-name>
         <servlet-class>servlet.IsNotDoneServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserSaveServlet</servlet-name>
+        <servlet-class>servlet.UserSaveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogServlet</servlet-name>
+        <servlet-class>servlet.LogServlet</servlet-class>
     </servlet>
 
 
@@ -60,6 +82,18 @@
     <servlet-mapping>
         <servlet-name>IsNotDoneServlet</servlet-name>
         <url-pattern>/not.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserSaveServlet</servlet-name>
+        <url-pattern>/user.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AuthServlet</servlet-name>
+        <url-pattern>/auth.do</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogServlet</servlet-name>
+        <url-pattern>/log.do</url-pattern>
     </servlet-mapping>
 
 </web-app>

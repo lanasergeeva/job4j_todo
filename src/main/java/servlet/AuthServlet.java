@@ -2,19 +2,20 @@ package servlet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import model.Item;
+import model.User;
 import store.HbmStore;
 
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
-public class IsNotDoneServlet extends HttpServlet  {
-
+public class AuthServlet extends HttpServlet {
     private static final Gson GSON = new GsonBuilder().create();
 
     @Override
@@ -23,9 +24,19 @@ public class IsNotDoneServlet extends HttpServlet  {
         resp.setCharacterEncoding("UTF-8");
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(
                 resp.getOutputStream(), StandardCharsets.UTF_8));
-        Item item = GSON.fromJson(req.getReader(), Item.class);
-        HbmStore.instOf().isNotDone(item.getId());
-        writer.print("200 OK");
+        User user = GSON.fromJson(req.getReader(), User.class);
+        try {
+            User check = HbmStore.instOf().findByNameUser(user.getName());
+            if (!user.getPassword().equals(check.getPassword())) {
+                writer.print("404");
+            } else {
+                HttpSession sc = req.getSession();
+                sc.setAttribute("user", check);
+                writer.print(check);
+            }
+        } catch (NoResultException e) {
+            writer.print("404");
+        }
         writer.flush();
     }
 }

@@ -1,16 +1,22 @@
 package store;
 
 import model.Item;
+import model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.exception.ConstraintViolationException;
+import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 
@@ -35,6 +41,12 @@ public class HbmStore implements Store, AutoCloseable {
     public Item add(Item item) {
         tx(session -> session.save(item));
         return item;
+    }
+
+
+    public User addUser(User user) throws ConstraintViolationException {
+        tx(session -> session.save(user));
+        return user;
     }
 
     @Override
@@ -91,6 +103,12 @@ public class HbmStore implements Store, AutoCloseable {
                 session -> session.createQuery("from model.Item").list());
     }
 
+    public List<Item> findAllByUser(User user) {
+        return tx(
+                session -> session.createQuery("from model.Item as item where item.user=:user")
+                        .setParameter("user", user).list());
+    }
+
     @Override
     public List<Item> findAllActiveItems() {
         return tx(
@@ -113,6 +131,16 @@ public class HbmStore implements Store, AutoCloseable {
                 session -> session
                         .createQuery("from model.Item as item where item.description=:name").
                                 setParameter("name", name).list());
+    }
+
+    @Override
+    public User findByNameUser(String name) throws NoResultException {
+        User rsl = null;
+            rsl = (User) tx(
+                    session -> session
+                            .createQuery("from model.User as user where user.name=:name").
+                                    setParameter("name", name).getSingleResult());
+        return rsl;
     }
 
     @Override
@@ -152,9 +180,20 @@ public class HbmStore implements Store, AutoCloseable {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         HbmStore hb = new HbmStore();
-        System.out.println(hb.isDone(40));
+        Date date = new Date();
+
+        //System.out.println(hb.isDone(40));
+        User us = new User("lana", "lana", "111");
+        // hb.addUser(us);
+        Item item = new Item("Wa", date,  us);
+        //System.out.println(hb.add(item));
+      // System.out.println(hb.existUser(rs));
+        System.out.println(hb.findByNameUser("lanapopopo"));
+       // User user = hb.findByNameUser("lanapopopo");
+        //System.out.println(hb.findAllByUser(user));
+        //System.out.println(hb.addUser(us));
     }
 }
 
