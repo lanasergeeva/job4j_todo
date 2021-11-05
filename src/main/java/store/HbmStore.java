@@ -136,10 +136,10 @@ public class HbmStore implements Store, AutoCloseable {
     @Override
     public User findByNameUser(String name) throws NoResultException {
         User rsl = null;
-            rsl = (User) tx(
-                    session -> session
-                            .createQuery("from model.User as user where user.name=:name").
-                                    setParameter("name", name).getSingleResult());
+        rsl = (User) tx(
+                session -> session
+                        .createQuery("from model.User as user where user.name=:name").
+                                setParameter("name", name).getSingleResult());
         return rsl;
     }
 
@@ -183,17 +183,13 @@ public class HbmStore implements Store, AutoCloseable {
     public static void main(String[] args) throws SQLException {
         HbmStore hb = new HbmStore();
         Date date = new Date();
-
-        //System.out.println(hb.isDone(40));
         User us = new User("lana", "lana", "111");
-        // hb.addUser(us);
-        Item item = new Item("Wa", date,  us);
-        //System.out.println(hb.add(item));
-      // System.out.println(hb.existUser(rs));
+        Item item = new Item("Wa", date, us);
+        System.out.println(hb.add(item));
         System.out.println(hb.findByNameUser("lanapopopo"));
-       // User user = hb.findByNameUser("lanapopopo");
-        //System.out.println(hb.findAllByUser(user));
-        //System.out.println(hb.addUser(us));
+        User user = hb.findByNameUser("lanapopopo");
+        System.out.println(hb.findAllByUser(user));
+        System.out.println(hb.addUser(us));
     }
 }
 
