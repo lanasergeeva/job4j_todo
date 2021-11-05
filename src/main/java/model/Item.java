@@ -134,8 +134,7 @@ public class Item {
             return false;
         }
         Item item = (Item) o;
-        return id == item.id && done == item.done && Objects.equals(description, item.description)
-                && Objects.equals(created, item.created) && Objects.equals(user, item.user);
+        return id == item.id;
     }
 
     @Override
