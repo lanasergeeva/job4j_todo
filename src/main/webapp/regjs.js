@@ -32,7 +32,7 @@ function addUser() {
             password: pas,
         }), dataType: 'text'
     }).done(function (data) {
-        if (data === "200") {
+        if (data === "200 OK") {
             window.location.href = "http://localhost:8080/todo/log.html";
         } else {
             alert("User exist");

@@ -31,3 +31,8 @@
 ## Пример работы программы
 
 ![alt_text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/work.gif)
+
+## В приложении присутсвует возможность авторизации и регистрации пользователя. 
+## Авторизированный пользователь видит список только своих задач, которые хранятся в базе.
+
+![alt_text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/workoftodo.gif)

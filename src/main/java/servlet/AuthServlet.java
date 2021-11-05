@@ -28,14 +28,14 @@ public class AuthServlet extends HttpServlet {
         try {
             User check = HbmStore.instOf().findByNameUser(user.getName());
             if (!user.getPassword().equals(check.getPassword())) {
-                writer.print("404");
+                writer.print("400 Bad Request");
             } else {
                 HttpSession sc = req.getSession();
                 sc.setAttribute("user", check);
                 writer.print(check);
             }
         } catch (NoResultException e) {
-            writer.print("404");
+            writer.print("400 Bad Request");
         }
         writer.flush();
     }

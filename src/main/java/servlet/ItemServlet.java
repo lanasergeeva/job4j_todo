@@ -15,7 +15,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 
 public class ItemServlet extends HttpServlet {
 
@@ -29,7 +28,7 @@ public class ItemServlet extends HttpServlet {
                 resp.getOutputStream(), StandardCharsets.UTF_8));
         Item item = GSON.fromJson(req.getReader(), Item.class);
         HbmStore.instOf().add(item);
-        writer.print("200");
+        writer.print("200 OK");
         writer.flush();
     }
 

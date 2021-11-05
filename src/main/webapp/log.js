@@ -23,7 +23,7 @@ function checkUser() {
             password: pas,
         }), dataType: 'text'
     }).done(function (data) {
-        if (data !== "404") {
+        if (data !== "400 Bad Request") {
             localStorage.setItem("user", name);
             window.location.href = "http://localhost:8080/todo/index.html";
         } else {

@@ -59,7 +59,7 @@ function addItem(event) {
             user: client,
         }), dataType: 'text'
     }).done(function (data) {
-        if (data === "200")
+        if (data === "200 OK")
             document.getElementById('description').value = '';
         getAllItems();
     })

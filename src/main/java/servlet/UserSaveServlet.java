@@ -27,9 +27,9 @@ public class UserSaveServlet extends HttpServlet {
         User user = GSON.fromJson(req.getReader(), User.class);
         try {
             HbmStore.instOf().addUser(user);
-            writer.print("200");
+            writer.print("200 OK");
         } catch (ConstraintViolationException e) {
-            writer.print("400");
+            writer.print("400 Bad Request");
         }
         writer.flush();
     }
