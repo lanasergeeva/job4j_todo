@@ -1,7 +1,9 @@
 package model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +22,9 @@ public class Item {
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Category> categories = new ArrayList<>();
 
     public Item() {
 
@@ -46,14 +51,14 @@ public class Item {
 
     public Item(String description) {
         this.description = description;
-        created =  new Date(System.currentTimeMillis());
+        created = new Date(System.currentTimeMillis());
         done = false;
     }
 
     public Item(String description, boolean done) {
         this.description = description;
         this.done = done;
-        created =  new Date(System.currentTimeMillis());
+        created = new Date(System.currentTimeMillis());
     }
 
     public Item(String description, Date created) {
@@ -73,6 +78,31 @@ public class Item {
         this.created = created;
         this.done = done;
     }
+
+    public Item(String description, User user, List<Category> categories) {
+        this.description = description;
+        this.user = user;
+        this.categories = categories;
+    }
+
+    public Item(String description, Date created, boolean done, User user, List<Category> categories) {
+        this.description = description;
+        this.created = created;
+        this.done = done;
+        this.user = user;
+        this.categories = categories;
+    }
+
+    public Item(int id, String description, Date created, boolean done, User user, List<Category> categories) {
+        this.id = id;
+        this.description = description;
+        this.created = created;
+        this.done = done;
+        this.user = user;
+        this.categories = categories;
+    }
+
+
 
     public User getUser() {
         return user;
@@ -117,12 +147,12 @@ public class Item {
     @Override
     public String toString() {
         return "Item{"
-               + "id=" + id
-              +  ", description='" + description + '\''
-              +  ", created=" + created
-              +  ", done=" + done
-              +  ", user=" + user
-              +  '}';
+                + "id=" + id
+                + ", description='" + description + '\''
+                + ", created=" + created
+                + ", done=" + done
+                + ", user=" + user
+                + '}';
     }
 
     @Override
