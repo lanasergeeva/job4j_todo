@@ -24,8 +24,8 @@
             TODO LIST
         </div>
         <div class="user-info">
-            <span id="username" style="font-size: 20px"></span>
-            <span id="exitId"  style="font-size: 20px"> | Log out</span>
+            <span id="username"></span>
+            <span id="exitId" style="float: right "> | Log out</span>
         </div>
     </div>
 
@@ -37,6 +37,12 @@
         <div class="new-todo-input">
             <form id="add" onsubmit="addItem(event)">
                 <input id="description" type="text" autocomplete="off" placeholder="Create a new Item..."/>
+                <div class="sel-cat">
+                    <select class="cg" id="cat" name="cat_id" size="4" multiple>
+                        <option id="cat_title" selected disabled>Choose category</option>
+                    </select>
+                </div>
+                <button type="submit" class="save" id="save">Save</button>
             </form>
         </div>
     </div>
@@ -59,8 +65,6 @@
             </div>
         </div>
     </div>
-    <tbody id="tbody">
-    </tbody>
 </div>
 </body>
 </html>

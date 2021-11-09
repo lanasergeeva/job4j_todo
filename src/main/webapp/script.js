@@ -1,8 +1,8 @@
-const itemsList = new Set;
-const maps = new Map;
+const allItems = new Map;
 const bool = new Map;
 let usName = localStorage.getItem("user");
 let client = null;
+const ctList = new Map;
 
 $(document).on("click", "#all", function () {
     getAllItems();
@@ -21,7 +21,6 @@ $(document).on("click", "#cleanDone", function () {
 });
 
 $(document).on("click", "#exitId", function () {
-    us = null;
     client = null;
     localStorage.removeItem("user");
     window.location.href = "http://localhost:8080/todo/log.do";
@@ -29,7 +28,7 @@ $(document).on("click", "#exitId", function () {
 
 
 function sizeItem() {
-    let ty = maps.size;
+    let ty = allItems.size;
     document.getElementById('length').innerHTML = ty + " item(s)";
 }
 
@@ -47,9 +46,17 @@ function getUser() {
     })
 }
 
+
 function addItem(event) {
     event.preventDefault();
     let desc = $('#description').val();
+    let categoriesList = $('#cat')
+        .find(":selected")
+        .map(function () {
+        return $(this).val();
+    }).get().map(function (key) {
+        return ctList.get(parseInt(key));
+    });
     $.ajax({
         type: 'POST',
         url: 'http://localhost:8080/todo/item.do',
@@ -57,6 +64,7 @@ function addItem(event) {
             description: desc,
             created: new Date().toISOString(),
             user: client,
+            categories: categoriesList
         }), dataType: 'text'
     }).done(function (data) {
         if (data === "200 OK")
@@ -68,7 +76,7 @@ function addItem(event) {
 function divFun(id) {
     const ap = bool.get(id);
     let urlI = (ap === true) ? 'http://localhost:8080/todo/not.do' : 'http://localhost:8080/todo/done.do';
-    let temp = maps.get(id);
+    let temp = allItems.get(id);
     $.ajax({
         type: 'POST',
         url: urlI,
@@ -79,8 +87,32 @@ function divFun(id) {
     })
 }
 
+function category() {
+    $("option:not(:first)").remove();
+    ctList.clear();
+    $.ajax({
+        type: 'GET',
+        url: 'http://localhost:8080/todo/category.do',
+        dataType: 'json'
+    }).done(function (data) {
+        for (let cat of data) {
+            ctList.set(cat.id, cat);
+            $('#cat').append($('<option>', {
+                value: cat.id,
+                text: cat.name,
+            }));
+        }
+    });
+}
+
+function getList(item) {
+    return item.categories.map(function (category) {
+        return category['name'];
+    }).join(',' + '\n');
+}
+
 function getItems(url) {
-    itemsList.clear();
+    allItems.clear();
     $("#ti").empty();
     $.ajax({
         type: 'GET',
@@ -88,9 +120,10 @@ function getItems(url) {
         dataType: 'json'
     }).done(function (data) {
         for (var item of data) {
+            let categories = getList(item);
             let index = item.id;
             let st = item.done;
-            maps.set(index, item);
+            allItems.set(index, item);
             bool.set(index, st);
             let date = new Date(item.created);
             let day = date.getDate();
@@ -104,13 +137,15 @@ function getItems(url) {
                 + `<div class="${done}" id="${index}" onclick="divFun(${index})"><img src="icons/icon-check.svg"></div>`
                 + `</div>`
                 + `<div class="${line}">${item.description}</div>`
-                + `<div class="${line}" style="width: 130px"><p class="descr">${full}</p></div>`
+                + `<div class="${line}" style="width: 300px"><p class="descr">${categories}</p></div>`
+                + `<div class="${line}" style="width: 150px"><p class="descr">${full}</p></div>`
                 + `</div>`
             )
         }
         sizeItem();
         showUser();
         getUser();
+        category();
     });
 };
 

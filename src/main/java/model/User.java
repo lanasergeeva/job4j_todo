@@ -15,32 +15,12 @@ public class User {
     private String email;
     private String password;
 
-    public User(String name, String password) {
-        this.name = name;
-        this.password = password;
-    }
-
-    public User(String name, String email, String password) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-
-    public User(int id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-    }
-
-    public User(int id, String name, String email, String password) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-    }
-
-    public User() {
-
+    public static User of(String name, String email, String password) {
+        User user = new User();
+        user.name = name;
+        user.email = email;
+        user.password = password;
+        return user;
     }
 
     public int getId() {
@@ -78,11 +58,11 @@ public class User {
     @Override
     public String toString() {
         return "User{"
-               + "id=" + id
-               + ", name='" + name + '\''
-               + ", email='" + email + '\''
-              +  ", password='" + password + '\''
-              +  '}';
+                + "id=" + id
+                + ", name='" + name + '\''
+                + ", email='" + email + '\''
+                + ", password='" + password + '\''
+                + '}';
     }
 
     @Override

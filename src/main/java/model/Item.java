@@ -26,20 +26,9 @@ public class Item {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Category> categories = new ArrayList<>();
 
+
     public Item() {
 
-    }
-
-    public Item(String description, User user) {
-        this.description = description;
-        this.user = user;
-    }
-
-    public Item(String description, Date created, User user) {
-        this.description = description;
-        this.created = new Date(System.currentTimeMillis());
-        this.done = false;
-        this.user = user;
     }
 
     public Item(String description, Date created, boolean done, User user) {
@@ -61,23 +50,6 @@ public class Item {
         created = new Date(System.currentTimeMillis());
     }
 
-    public Item(String description, Date created) {
-        this.description = description;
-        this.created = created;
-    }
-
-    public Item(String description, Date created, boolean done) {
-        this.description = description;
-        this.created = created;
-        this.done = done;
-    }
-
-    public Item(int id, String description, Date created, boolean done) {
-        this.id = id;
-        this.description = description;
-        this.created = created;
-        this.done = done;
-    }
 
     public Item(String description, User user, List<Category> categories) {
         this.description = description;
@@ -101,7 +73,6 @@ public class Item {
         this.user = user;
         this.categories = categories;
     }
-
 
 
     public User getUser() {

@@ -1,8 +1,6 @@
 package model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,17 +11,10 @@ public class Category {
     private int id;
     private String name;
 
-    public Category(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Category(String name) {
-        this.name = name;
-    }
-
-    public Category() {
-
+    public static Category of(String name) {
+        Category category = new Category();
+        category.name = name;
+        return category;
     }
 
     public int getId() {

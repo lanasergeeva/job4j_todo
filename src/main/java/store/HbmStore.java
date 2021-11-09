@@ -1,5 +1,6 @@
 package store;
 
+import model.Category;
 import model.Item;
 import model.User;
 import org.hibernate.Session;
@@ -9,13 +10,11 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.exception.ConstraintViolationException;
-import org.postgresql.util.PSQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
@@ -103,17 +102,43 @@ public class HbmStore implements Store, AutoCloseable {
                 session -> session.createQuery("from model.Item").list());
     }
 
-    public List<Item> findAllByUser(User user) {
+    @Override
+    public List<Category> findAllCategories() {
         return tx(
-                session -> session.createQuery("from model.Item as item where item.user=:user")
+                session -> session.createQuery("from model.Category").list());
+    }
+
+    @Override
+    public List<Item> findAllByUser(User user) {
+        String rsl = "select distinct it from model.Item it "
+                + "left join fetch it.categories "
+                + "where it.user = :user";
+        return tx(
+                session -> session.createQuery(rsl)
                         .setParameter("user", user).list());
     }
 
     @Override
     public List<Item> findAllActiveItems() {
+        String query = "select it from model.Item it "
+                + "left join fetch it.categories "
+                + "where it.done=:done";
         return tx(
-                session -> session.createQuery("from model.Item as item where item.done=:done")
+                session -> session.createQuery(query)
                         .setParameter("done", false)
+                        .list());
+    }
+
+    @Override
+    public List<Item> findAllActiveItemsByUser(User user) {
+        String query = "select distinct it from model.Item it "
+                + "left join fetch it.categories "
+                + "where it.done=:done"
+                + " and it.user=:user";
+        return tx(
+                session -> session.createQuery(query)
+                        .setParameter("done", false)
+                        .setParameter("user", user)
                         .list());
     }
 
@@ -122,6 +147,19 @@ public class HbmStore implements Store, AutoCloseable {
         return tx(
                 session -> session.createQuery("from model.Item as item where item.done=:done")
                         .setParameter("done", true).list());
+    }
+
+    @Override
+    public List<Item> findAllCompItemsByUser(User user) {
+        String query = "select distinct it from model.Item it "
+                + "left join fetch it.categories "
+                + "where it.done=:done"
+                + " and it.user=:user";
+        return tx(
+                session -> session.createQuery(query)
+                        .setParameter("done", true)
+                        .setParameter("user", user)
+                        .list());
     }
 
 
@@ -135,7 +173,7 @@ public class HbmStore implements Store, AutoCloseable {
 
     @Override
     public User findByNameUser(String name) throws NoResultException {
-        User rsl = null;
+        User rsl;
         rsl = (User) tx(
                 session -> session
                         .createQuery("from model.User as user where user.name=:name").
@@ -144,25 +182,8 @@ public class HbmStore implements Store, AutoCloseable {
     }
 
     @Override
-    public Item findById(int id) {
-        Session session = sf.openSession();
-        Transaction tx = session.beginTransaction();
-        try {
-            return session.get(Item.class, id);
-        } finally {
-            tx.commit();
-            session.close();
-        }
-    }
-
-    @Override
     public void close() {
         StandardServiceRegistryBuilder.destroy(registry);
-    }
-
-    @Override
-    public void init() {
-
     }
 
     private <T> T tx(final Function<Session, T> command) {
@@ -178,18 +199,6 @@ public class HbmStore implements Store, AutoCloseable {
         } finally {
             session.close();
         }
-    }
-
-    public static void main(String[] args) throws SQLException {
-        HbmStore hb = new HbmStore();
-        Date date = new Date();
-        User us = new User("lana", "lana", "111");
-        Item item = new Item("Wa", date, us);
-        System.out.println(hb.add(item));
-        System.out.println(hb.findByNameUser("lanapopopo"));
-        User user = hb.findByNameUser("lanapopopo");
-        System.out.println(hb.findAllByUser(user));
-        System.out.println(hb.addUser(us));
     }
 }
 
