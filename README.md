@@ -5,34 +5,64 @@
 [![Build Status](https://app.travis-ci.com/lanasergeeva/job4j_todo.svg?branch=master)](https://app.travis-ci.com/lanasergeeva/job4j_todo)
 
 # Приложение TODO LIST
++ [Описание](#Описание-проекта)
++ [Технологии](#Используемые-технологии)
++ [Функционал](#Функционал-приложения)
 
-## Общий вид приложения
-![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/view.jpg)
 
-## Добавление задачи
+## Описание проекта
+ToDo List это web-проект в котором реализовано ведение списка дел. 
+Доступ к приложению имеют только авторизированные пользователи. Каждый пользователь видит только свой список дел.
+Также есть возможность выбора категории или нескольких категорий для задачи.
+Вся информация хранится в базе данных.
 
-Задача прописывается в поле Create a new Item. С нажатием Enter сразу попадает в общий список.
-![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/Enter%20todo.jpg)
+## Используемые технологии
++ **Maven**
++ **HTML**, **CSS**, **AJAX**, **Jquery**, **Javascript**
++ **Java 14**, **Hibernate**, **Servlet**
 
-## Мы можем отображать список всех задач, все активные или все завершенные  
+## Функционал приложения
 
-Все
+Общий вид
+![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/items.jpg)
 
-![alt_text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/allitems.jpg)
+Работа с приложение начинается с процесса авторизации пользователя
+
+![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/log.jpg)
+
+Если у пользователя еще нет аккаунта, то он может перейти по ссылке, где ему нужно заполнить форму регистрации
+
+![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/registr.jpg)
+
+Для всех полей при аваторизации и регистрации стоит валидация.
+
+![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/validreg.jpg)
+
+![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/log_val.jpg)
+
+Вход нового пользователя в аккаунт.
+
+![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/views.jpg)
+
+При добавлении задачи нужно ввести нвазание и выбрать категорию. Категории не ограничены в выборе.
+
+![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/items.jpg)
+
+Выполнить задание можно щелчком на указатель. После этого вид задачи будет такой.
+
+![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/compitems.jpg)
+
+В меню мы можем выбрать вывод всех задач, либо только активных или только выполненных.
 
 Активные
+![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/active.jpg)
 
-![alt_text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/active1.jpg)
+Выполненные
+![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/comp.jpg)
 
-Заверешенные
+Пример работы программы
+![alt text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/worktodobig.gif)
 
-![alt_text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/comp1.jpg)
+Выйти из приложения можно щечком лкм по Log Out в верхнем правом углу.
 
-## Пример работы программы
 
-![alt_text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/work.gif)
-
-## В приложении присутсвует возможность авторизации и регистрации пользователя. 
-## Авторизированный пользователь видит список только своих задач, которые хранятся в базе.
-
-![alt_text](https://github.com/lanasergeeva/job4j_todo/blob/master/src/main/webapp/image/workoftodo.gif)
