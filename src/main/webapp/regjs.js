@@ -1,7 +1,5 @@
-let post = null;
-
 function validate() {
-    var rsl = true;
+    let rsl = true;
     if ($('#login').val() === '') {
         alert($('#login').attr('title'));
         rsl = false;
