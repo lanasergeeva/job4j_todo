@@ -7,7 +7,7 @@
 body {
     font-family: 'Josefin Sans', sans-serif;
     background-color: hsl(235, 21%, 11%);
-    font-size: 18px;
+    font-size: 15px;
     display: flex;
     justify-content: center;
 }
@@ -17,21 +17,21 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    max-height: 350px;
+    max-height: 280px;
     z-index: -1;
 }
 
 .background-image img {
     width: 100%;
     object-fit: cover;
-    min-height: 350px;
+    min-height: 280px;
     object-position: left;
 }
 
 .container {
     width: 100%;
-    max-width: 400px;
-    margin: 100px 30px 0;
+    max-width: 320px;
+    margin: 80px 24px 0;
 }
 
 .header {
@@ -42,16 +42,16 @@ body {
 
 .title {
     color: rgba(59, 223, 70, 1);
-    letter-spacing: 10px;
-    font-size: 50px;
+    letter-spacing: 8px;
+    font-size: 40px;
     font-weight: bold;
 }
 
 .new-todo {
     width: 100%;
-    height: 70px;
+    height: 40px;
     background-color: hsl(235, 24%, 19%);
-    margin-top: 50px;
+    margin-top: 40px;
     border-radius: 6px;
     display: flex;
 }
@@ -65,13 +65,13 @@ body {
 
 .new-todo-input input {
     width: 100%;
-    padding: 10px 0;
-    font-size: 20px;
+    padding: 8px 0;
+    font-size: 16px;
     background-color: transparent;
     border: none;
     outline: none;
     color: hsl(110, 70%, 40%);
-    text-indent: 30px;
+    text-indent: 24px;
 }
 
 .new-todo-input form {
@@ -89,11 +89,11 @@ body {
     left: 50%;
     transform: translate(-50%, 0);
     border: none;
-    font-size: 20px;
+    font-size: 16px;
     width: 40%;
-    height: 50px;
+    height: 40px;
     background-color: hsl(235, 24%, 19%);
-    margin-top: 20px;
+    margin-top: 16px;
     border-radius: 6px;
     color: hsl(110, 70%, 40%);
     cursor: pointer;
@@ -104,11 +104,11 @@ body {
     left: 50%;
     transform: translate(-50%, 0);
     border: none;
-    font-size: 20px;
+    font-size: 16px;
     width: 80%;
-    height: 40px;
+    height: 32px;
     background-color: hsl(235, 24%, 19%);
-    margin-top: 20px;
+    margin-top: 16px;
     border-radius: 6px;
     color: hsl(110, 70%, 40%);
     cursor: pointer;
